@@ -45,6 +45,16 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
         return $result;
     }
 
+    public function periodsTitlesDataProvider()
+    {
+        return [
+            [Generator::MORNING, 'утра'],
+            [Generator::AFTERNOON, 'дня'],
+            [Generator::EVENING, 'вечера'],
+            [Generator::NIGHT, 'ночи'],
+        ];
+    }
+
     public function simpleTimeFormatHoursProvider()
     {
         return [
@@ -88,6 +98,15 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $actualPeriod = $this->generator->getPeriodOfDay($time);
         $this->assertEquals($expectedPeriod, $actualPeriod);
+    }
+
+    /**
+     * @dataProvider periodsTitlesDataProvider
+     */
+    public function testStringifyPeriodOfDay($period, $expectedTitle)
+    {
+        $actualTitle = $this->generator->stringifyPeriodOfDay($period);
+        $this->assertEquals($expectedTitle, $actualTitle);
     }
 
     /**

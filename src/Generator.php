@@ -22,6 +22,13 @@ class Generator
         23 => self::NIGHT,
     ];
 
+    protected $periodOfDayTitles = [
+        self::MORNING => 'утра',
+        self::AFTERNOON => 'дня',
+        self::EVENING => 'вечера',
+        self::NIGHT => 'ночи',
+    ];
+
     protected $hourPluralization = [
         Pluralizer::ONE => 'час',
         Pluralizer::FEW => 'часа',
@@ -65,6 +72,20 @@ class Generator
         $result[] = $pluralizer->make($hour, $this->hourPluralization);
 
         return join(' ', $result);
+    }
+
+    /**
+     * @param $period
+     * @return string
+     * @throws \Exception
+     */
+    public function stringifyPeriodOfDay($period)
+    {
+        if (!isset($this->periodOfDayTitles[$period])) {
+            throw new \Exception('Invalid period of day titles map');
+        }
+
+        return $this->periodOfDayTitles[$period];
     }
 
     /**
