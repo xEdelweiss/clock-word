@@ -155,6 +155,22 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
         ];
     }
 
+    public function simpleTimeFormatProvider()
+    {
+        return [
+            ['2:00', Generator::TIME_FORMAT_12, 'два часа ноль минут ночи'],
+            ['2:00', Generator::TIME_FORMAT_24, 'два часа ноль минут'],
+            ['8:12', Generator::TIME_FORMAT_12, 'восемь часов двенадцать минут утра'],
+            ['8:12', Generator::TIME_FORMAT_24, 'восемь часов двенадцать минут'],
+            ['14:31', Generator::TIME_FORMAT_12, 'два часа тридцать одна минута дня'],
+            ['14:31', Generator::TIME_FORMAT_24, 'четырнадцать часов тридцать одна минута'],
+            ['17:52', Generator::TIME_FORMAT_12, 'пять часов пятьдесят две минуты вечера'],
+            ['17:52', Generator::TIME_FORMAT_24, 'семнадцать часов пятьдесят две минуты'],
+            ['23:01', Generator::TIME_FORMAT_12, 'одинадцать часов одна минута ночи'],
+            ['23:01', Generator::TIME_FORMAT_24, 'двадцать три часа одна минута'],
+        ];
+    }
+
     public function testGenerator()
     {
         $this->assertInstanceOf(Generator::class, $this->generator);
@@ -194,6 +210,16 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
     public function testStringifyMinute($minute, $expectedResult)
     {
         $actualResult = $this->generator->stringifyMinute($minute);
+
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
+     * @dataProvider simpleTimeFormatProvider
+     */
+    public function testStringifyTime($time, $timeFormat, $expectedResult)
+    {
+        $actualResult = $this->generator->stringifyTime(Carbon::createFromFormat('H:i', $time), $timeFormat);
 
         $this->assertEquals($expectedResult, $actualResult);
     }

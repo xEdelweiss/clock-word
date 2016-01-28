@@ -59,15 +59,21 @@ class Generator
      * @return string
      * @throws \Exception
      */
-    public function stringifyTime(Carbon $time)
+    public function stringifyTime(Carbon $time, $timeFormat = self::TIME_FORMAT_12)
     {
         $period = $this->getPeriodOfDay($time);
+        $periodString = $this->stringifyPeriodOfDay($period);
+        $hourString = $this->stringifyHour($time->hour, $timeFormat);
+        $minuteString = $this->stringifyMinute($time->minute);
 
         $result = [
-            $this->stringifyHour($time->hour),
-            $this->stringifyMinute($time->minute),
-            $this->stringifyPeriodOfDay($period),
+            $hourString,
+            $minuteString,
         ];
+
+        if ($timeFormat == self::TIME_FORMAT_12) {
+            $result[] = $periodString;
+        }
 
         return join(' ', $result);
     }
