@@ -55,6 +55,24 @@ class Generator
     protected $skipHourTitle = [1];
 
     /**
+     * @param Carbon $time
+     * @return string
+     * @throws \Exception
+     */
+    public function stringifyTime(Carbon $time)
+    {
+        $period = $this->getPeriodOfDay($time);
+
+        $result = [
+            $this->stringifyHour($time->hour),
+            $this->stringifyMinute($time->minute),
+            $this->stringifyPeriodOfDay($period),
+        ];
+
+        return join(' ', $result);
+    }
+
+    /**
      * @param int $hour
      */
     public function stringifyHour($hour, $timeFormat = self::TIME_FORMAT_12)
@@ -73,9 +91,12 @@ class Generator
 
         $hourString = $numberStringifier->stringify($hour, $this->hourGender);
 
-        if (!in_array($hour, $this->skipHourTitle)) {
-            $result[] = $hourString;
-        }
+        // @todo think about this
+        //if (!in_array($hour, $this->skipHourTitle)) {
+        //    $result[] = $hourString;
+        //}
+
+        $result[] = $hourString;
 
         $result[] = $pluralizer->make($hour, $this->hourPluralization);
 
