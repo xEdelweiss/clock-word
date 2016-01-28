@@ -29,10 +29,18 @@ class Generator
         self::NIGHT => 'ночи',
     ];
 
+    protected $hourGender = NumberStringifier::MALE;
     protected $hourPluralization = [
         Pluralizer::ONE => 'час',
         Pluralizer::FEW => 'часа',
         Pluralizer::MANY => 'часов',
+    ];
+
+    protected $minuteGender = NumberStringifier::FEMALE;
+    protected $minutePluralization = [
+        Pluralizer::ONE => 'минута',
+        Pluralizer::FEW => 'минуты',
+        Pluralizer::MANY => 'минут',
     ];
 
     /**
@@ -63,13 +71,30 @@ class Generator
             $hour = $this->hourOverride[$hour];
         }
 
-        $hourString = $numberStringifier->stringify($hour);
+        $hourString = $numberStringifier->stringify($hour, $this->hourGender);
 
         if (!in_array($hour, $this->skipHourTitle)) {
             $result[] = $hourString;
         }
 
         $result[] = $pluralizer->make($hour, $this->hourPluralization);
+
+        return join(' ', $result);
+    }
+
+    /**
+     * @param int $minute
+     */
+    public function stringifyMinute($minute)
+    {
+        $result = [];
+        $numberStringifier = new NumberStringifier();
+        $pluralizer = new Pluralizer();
+
+        $minuteString = $numberStringifier->stringify($minute, $this->minuteGender);
+
+        $result[] = $minuteString;
+        $result[] = $pluralizer->make($minute, $this->minutePluralization);
 
         return join(' ', $result);
     }

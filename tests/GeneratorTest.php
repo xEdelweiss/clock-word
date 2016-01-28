@@ -55,7 +55,7 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-    public function simpleTimeFormatHoursProvider()
+    public function simpleTimeFormatHourProvider()
     {
         return [
             [0, 'двенадцать часов'],
@@ -86,6 +86,73 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
         ];
     }
 
+    public function simpleTimeFormatMinuteProvider()
+    {
+        return [
+            [0, 'ноль минут'],
+            [1, 'одна минута'],
+            [2, 'две минуты'],
+            [3, 'три минуты'],
+            [4, 'четыре минуты'],
+            [5, 'пять минут'],
+            [6, 'шесть минут'],
+            [7, 'семь минут'],
+            [8, 'восемь минут'],
+            [9, 'девять минут'],
+            [10, 'десять минут'],
+            [11, 'одинадцать минут'],
+            [12, 'двенадцать минут'],
+            [13, 'тринадцать минут'],
+            [14, 'четырнадцать минут'],
+            [15, 'пятнадцать минут'],
+            [16, 'шестнадцать минут'],
+            [17, 'семнадцать минут'],
+            [18, 'восемнадцать минут'],
+            [19, 'девятнадцать минут'],
+            [20, 'двадцать минут'],
+            [21, 'двадцать одна минута'],
+            [22, 'двадцать две минуты'],
+            [23, 'двадцать три минуты'],
+            [24, 'двадцать четыре минуты'],
+            [25, 'двадцать пять минут'],
+            [26, 'двадцать шесть минут'],
+            [27, 'двадцать семь минут'],
+            [28, 'двадцать восемь минут'],
+            [29, 'двадцать девять минут'],
+            [30, 'тридцать минут'],
+            [31, 'тридцать одна минута'],
+            [32, 'тридцать две минуты'],
+            [33, 'тридцать три минуты'],
+            [34, 'тридцать четыре минуты'],
+            [35, 'тридцать пять минут'],
+            [36, 'тридцать шесть минут'],
+            [37, 'тридцать семь минут'],
+            [38, 'тридцать восемь минут'],
+            [39, 'тридцать девять минут'],
+            [40, 'сорок минут'],
+            [41, 'сорок одна минута'],
+            [42, 'сорок две минуты'],
+            [43, 'сорок три минуты'],
+            [44, 'сорок четыре минуты'],
+            [45, 'сорок пять минут'],
+            [46, 'сорок шесть минут'],
+            [47, 'сорок семь минут'],
+            [48, 'сорок восемь минут'],
+            [49, 'сорок девять минут'],
+            [50, 'пятьдесят минут'],
+            [51, 'пятьдесят одна минута'],
+            [52, 'пятьдесят две минуты'],
+            [53, 'пятьдесят три минуты'],
+            [54, 'пятьдесят четыре минуты'],
+            [55, 'пятьдесят пять минут'],
+            [56, 'пятьдесят шесть минут'],
+            [57, 'пятьдесят семь минут'],
+            [58, 'пятьдесят восемь минут'],
+            [59, 'пятьдесят девять минут'],
+            [60, 'шестьдесят минут'],
+        ];
+    }
+
     public function testGenerator()
     {
         $this->assertInstanceOf(Generator::class, $this->generator);
@@ -110,11 +177,21 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider simpleTimeFormatHoursProvider
+     * @dataProvider simpleTimeFormatHourProvider
      */
     public function testStringifyHour($hour, $expectedResult)
     {
         $actualResult = $this->generator->stringifyHour($hour);
+
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
+     * @dataProvider simpleTimeFormatMinuteProvider
+     */
+    public function testStringifyMinute($minute, $expectedResult)
+    {
+        $actualResult = $this->generator->stringifyMinute($minute);
 
         $this->assertEquals($expectedResult, $actualResult);
     }
