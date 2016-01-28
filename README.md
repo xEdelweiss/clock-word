@@ -10,6 +10,6 @@ $generator->stringifyTime($time); // пять часов сорок восемь
 ```
 
 ## Благодарность
-- Brian Nesbitt за Carbon, A simple PHP API extension for DateTime (https://github.com/Intervention/image)
+- Brian Nesbitt за Carbon, A simple PHP API extension for DateTime (https://github.com/briannesbitt/carbon)
 - Sebastian Bergmann за PHPUnit, The PHP Unit Testing framework (https://github.com/sebastianbergmann/phpunit)
 - Symfony за VarDumper, The VarDumper Component (https://github.com/symfony/var-dumper)
