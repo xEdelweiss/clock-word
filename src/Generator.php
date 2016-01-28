@@ -11,6 +11,9 @@ class Generator
     const AFTERNOON = 'afternoon'; // да-да, это не совсем afternoon
     const EVENING = 'evening';
 
+    const TIME_FORMAT_24 = '24';
+    const TIME_FORMAT_12 = '12';
+
     protected $dayStructure = [
         0 => self::NIGHT,
         5 => self::MORNING,
@@ -19,12 +22,49 @@ class Generator
         23 => self::NIGHT,
     ];
 
-    /**
-     * @param Carbon $time
-     */
-    public function make(Carbon $time)
-    {
+    protected $hourPluralization = [
+        Pluralizer::ONE => 'час',
+        Pluralizer::FEW => 'часа',
+        Pluralizer::MANY => 'часов',
+    ];
 
+    /**
+     * @var array
+     * use $value instead of $key
+     * @see stringifyHour
+     */
+    protected $hourOverride = [
+        0 => 12,
+    ];
+
+    protected $skipHourTitle = [1];
+
+    /**
+     * @param int $hour
+     */
+    public function stringifyHour($hour, $timeFormat = self::TIME_FORMAT_12)
+    {
+        $result = [];
+        $numberStringifier = new NumberStringifier();
+        $pluralizer = new Pluralizer();
+
+        if ($timeFormat == self::TIME_FORMAT_12) {
+            $hour %= 12;
+        }
+
+        if (isset($this->hourOverride[$hour])) {
+            $hour = $this->hourOverride[$hour];
+        }
+
+        $hourString = $numberStringifier->stringify($hour);
+
+        if (!in_array($hour, $this->skipHourTitle)) {
+            $result[] = $hourString;
+        }
+
+        $result[] = $pluralizer->make($hour, $this->hourPluralization);
+
+        return join(' ', $result);
     }
 
     /**
@@ -68,6 +108,4 @@ class Generator
     {
         $this->dayStructure = $dayStructure;
     }
-
-
 }
